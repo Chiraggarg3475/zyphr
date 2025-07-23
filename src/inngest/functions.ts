@@ -1,6 +1,6 @@
 import {z} from "zod";
 import {Sandbox} from "@e2b/code-interpreter";
-import {  gemini , createAgent, createTool, createNetwork, type Tool } from "@inngest/agent-kit";
+import {  openai ,gemini, createAgent, createTool, createNetwork, type Tool } from "@inngest/agent-kit";
 
 import { PROMPT } from "@/prompt";
 
@@ -8,7 +8,7 @@ import { inngest } from "./client";
 import { getSandbox, lastAssistantTextMessageContent } from "./utils";
 import { prisma } from "@/lib/db";
 
-interface AgenetState {
+interface AgentState {
   summary: string,
   files: {[path: string]: string};
 };
@@ -22,7 +22,7 @@ export const codeAgentFunction = inngest.createFunction(
       return sandbox.sandboxId;
     });  
     
-    const codeAgent = createAgent<AgenetState>({
+    const codeAgent = createAgent<AgentState>({
       name: "code-agent",
       description: "An expert coding agent",   
       system: PROMPT,
@@ -71,7 +71,7 @@ export const codeAgentFunction = inngest.createFunction(
             }),
             handler: async (
               {files},
-              {step,network}: Tool.Options<AgenetState>
+              {step,network}: Tool.Options<AgentState>
             ) => {
               const newFiles = await step?.run("createOrUpdateFiles", async () =>{
                 try {
@@ -132,7 +132,7 @@ export const codeAgentFunction = inngest.createFunction(
       },
     });
 
-    const network = createNetwork<AgenetState>({
+    const network = createNetwork<AgentState>({
       name: "coding-agent-network",
       agents: [codeAgent],
       maxIter: 30,
