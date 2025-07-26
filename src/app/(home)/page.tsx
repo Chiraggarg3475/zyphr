@@ -11,13 +11,13 @@ const Page = () =>{
           <Image
             src="/logo.svg"
             alt="Vibe"
-            width={50}
-            height={50}
+            width={100}
+            height={100}
             className="hidden md:block"
           />
         </div>
         <h1 className="text-2xl md:text-5xl font-bold text-center">
-          Build something with Vibe
+          Build something with Zyphr
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground text-center">
           Create apps and websites by chatting with AI
