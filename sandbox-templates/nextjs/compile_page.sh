@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script runs during building the sandbox template
+# and makes sure the Next.js app is (1) running and (2) the / page is compiled
 function ping_server() {
 	counter=0
 	response=$(curl -k -s -o /dev/null -w "%{http_code}" "https://localhost:3000")
@@ -9,9 +11,10 @@ function ping_server() {
         echo "Waiting for server to start..."
         sleep 0.1
       fi
+
 	  response=$(curl -k -s -o /dev/null -w "%{http_code}" "https://localhost:3000")
 	done
 }
 
 ping_server &
-cd /home/user && node server.js
+cd /home/user && npx next dev --turbopack --experimental-https
