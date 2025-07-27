@@ -115,7 +115,7 @@ export const codeAgentFunction = inngest.createFunction(
                   const sandbox = await getSandbox(sandboxId);
                   for (const file of files) { 
                     await sandbox.files.write(file.path, file.content);
-                    updatedFiles[file.path] = file.content;  
+                    updatedFiles[file.path] = file.content ;  
                   }
 
                   return updatedFiles;
