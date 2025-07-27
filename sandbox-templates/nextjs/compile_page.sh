@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # This script runs during building the sandbox template
-# and makes sure the Next.js app is (1) running and (2) the / page is compiled
+# and makes sure the Next.js app is (1) running and (2) the `/` page is compiled
 function ping_server() {
 	counter=0
-	response=$(curl -k -s -o /dev/null -w "%{http_code}" "https://localhost:3000")
+	response=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000")
 	while [[ ${response} -ne 200 ]]; do
 	  let counter++
 	  if  (( counter % 20 == 0 )); then
@@ -12,9 +12,9 @@ function ping_server() {
         sleep 0.1
       fi
 
-	  response=$(curl -k -s -o /dev/null -w "%{http_code}" "https://localhost:3000")
+	  response=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:3000")
 	done
 }
 
 ping_server &
-cd /home/user && npx next dev --turbopack --experimental-https
+cd /home/user && npx next dev --turbopack
